@@ -23,5 +23,3 @@ docker compose up -d
 docker build -t frontend-makeproject -f ./frontend\Dockerfile.make_project . && docker run --rm --mount "type=bind,source=${PWD}/frontend,target=/nuxt_makeproject" frontend-makeproject && docker rmi frontend-makeproject
 
 docker build -t backend-makeproject -f ./backend\Dockerfile.make_project . && docker run --rm --mount "type=bind,source=${PWD}/backend,target=/fastapi_work" backend-makeproject && docker rmi backend-makeproject
-
-docker compose down --rmiは
