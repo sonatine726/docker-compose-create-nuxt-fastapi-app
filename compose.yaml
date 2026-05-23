@@ -1,0 +1,47 @@
+services:
+  frontend_nuxt:
+    container_name: frontend_nuxt
+    build:
+      context: ./frontend
+      args:
+        - WORK_DIR=${FRONTEND_WORK_DIR:-nuxt_work}
+        - APP_DIR=${FRONTEND_APP_DIR:-nuxtapp}
+        - CONTAINER_HOST=${FRONTEND_CONTAINER_HOST:-0.0.0.0}
+        - CONTAINER_PORT=${FRONTEND_CONTAINER_PORT:-3000}
+
+    volumes:
+        - ./frontend:/${FRONTEND_WORK_DIR:-nuxt_work}
+    ports:
+      - "3000:${FRONTEND_CONTAINER_PORT:-3000}"
+    stdin_open: true
+    tty: true
+
+  backend_fastapi:
+    container_name: backend_fastapi
+    build:
+      context: ./backend
+      args:
+        - WORK_DIR=${BACKEND_WORK_DIR:-fastapi_work}
+        - APP_DIR=${BACKEND_APP_DIR:-app}
+        - APP_FILE_NAME=${BACKEND_APP_FILE_NAME:-main}
+        - APP_INSTANCE_NAME=${BACKEND_APP_INSTANCE_NAME:-app}
+        - CONTAINER_HOST=${BACKEND_CONTAINER_HOST:-0.0.0.0}
+        - CONTAINER_PORT=${BACKEND_CONTAINER_PORT:-8000}
+        - UVICORN_RELOAD=${BACKEND_UVICORN_RELOAD:-true}
+    volumes:
+        - ./backend:/${BACKEND_WORK_DIR:-fastapi}
+    ports:
+      - "8000:${BACKEND_CONTAINER_PORT:-8000}"
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres
+    volumes:
+      - psgl_data:/var/lib/postgresql
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+
+volumes:
+  psgl_data:
+    # external: true

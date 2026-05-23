@@ -1,0 +1,32 @@
+ARG UV_VERSION="0.9.30-python3.12-bookworm-slim"
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}
+
+ARG WORK_DIR
+ARG APP_DIR
+ARG APP_FILE_NAME
+ARG APP_INSTANCE_NAME
+ARG CONTAINER_HOST
+ARG CONTAINER_PORT
+ARG UVICORN_RELOAD
+
+WORKDIR ${WORK_DIR}
+
+ENV UVICORN_HOST=${CONTAINER_HOST}
+ENV UVICORN_PORT=${CONTAINER_PORT}
+ENV UVICORN_RELOAD=${UVICORN_RELOAD}
+ENV APP_DIR=${APP_DIR}
+ENV APP_FILE_NAME=${APP_FILE_NAME}
+ENV APP_INSTANCE_NAME=${APP_INSTANCE_NAME}
+
+EXPOSE ${CONTAINER_PORT}
+
+COPY pyproject.toml uv.lock ./
+# Add a script to be executed every time the container starts.
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+
+ENV PATH="${WORK_DIR}/.venv/bin:$PATH"
+
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["sh", "-c", "exec uvicorn ${APP_DIR}.${APP_FILE_NAME}:${APP_INSTANCE_NAME}"]

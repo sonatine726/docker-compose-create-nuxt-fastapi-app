@@ -1,0 +1,37 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devcontainer
+    volumes:
+      - ..:/workspace:cached
+      - /workspace/node_modules
+      - /workspace/.venv
+      - /workspace/backend/app/.venv
+      - ${USERPROFILE}/.ssh:/root/.ssh:cached
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    environment:
+      - NODE_ENV=development
+    command: /bin/bash
+    depends_on:
+      - frontend_nuxt
+      - backend_fastapi
+      - db
+
+  frontend_nuxt:
+    extends:
+      file: ../compose.yaml
+      service: frontend_nuxt
+
+  backend_fastapi:
+    extends:
+      file: ../compose.yaml
+      service: backend_fastapi
+
+  db:
+    extends:
+      file: ../compose.yaml
+      service: db

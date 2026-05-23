@@ -1,0 +1,7 @@
+ARG NODE_VERSION="lts-alpine"
+
+FROM node:${NODE_VERSION}
+
+WORKDIR /nuxt_makeproject
+RUN apk update
+ENTRYPOINT ["npx", "nuxi@latest", "init", "nuxtapp", "--packageManager=yarn", "--no-install", "--no-modules", "--template=minimal"]

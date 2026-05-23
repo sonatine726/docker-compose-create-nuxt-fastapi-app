@@ -1,0 +1,37 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+  "name": "Nuxt and FastAPI Development",
+  "dockerComposeFile": ["../compose.yaml", "./compose.yaml"],
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Nuxtr.nuxtr-vscode",
+        "Vue.volar",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "oderwat.indent-rainbow",
+        "chrmarti.regex",
+        "eamodio.gitlens",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "editor.tabSize": 2,
+        "editor.formatOnSave": false,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": false
+        },
+        "editor.rulers": [127],
+        "editor.guides.bracketPairs": true,
+        "files.insertFinalNewline": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
+  "mounts": [
+    "source=${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+  ],
+  "postCreateCommand": "chmod 600 /root/.ssh/*"
+}

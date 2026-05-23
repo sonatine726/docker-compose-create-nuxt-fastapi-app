@@ -1,0 +1,7 @@
+ARG UV_VERSION="0.9.30-python3.12-bookworm-slim"
+
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}
+
+WORKDIR /fastapi_work
+
+ENTRYPOINT ["/bin/sh", "-c", "uv init --bare && uv add fastapi[standard] --no-sync"]
