@@ -5,6 +5,9 @@
   "dockerComposeFile": ["../compose.yaml", "./compose.yaml"],
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -15,13 +18,15 @@
         "oderwat.indent-rainbow",
         "chrmarti.regex",
         "eamodio.gitlens",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "ms-python.python",
+        "ms-python.vscode-pylance"
       ],
       "settings": {
         "editor.tabSize": 2,
         "editor.formatOnSave": false,
         "editor.codeActionsOnSave": {
-          "source.fixAll": false
+          "source.fixAll": "never"
         },
         "editor.rulers": [127],
         "editor.guides.bracketPairs": true,
